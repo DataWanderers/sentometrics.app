@@ -1,27 +1,28 @@
 
-#' Shiny application for sentiment computation and visualisation
+#' Shiny application for sentiment computation, aggregation and visualisation
 #'
-#' @author Jeroen Van Pelt, Samuel Borms
+#' @author Samuel Borms, Jeroen Van Pelt
 #'
-#' @description A Shiny application to showcase many of the package's functionalities.
+#' @description A Shiny application built on the \pkg{sentometrics} package to allow straightforward
+#' textual sentiment computation, aggregation and visualisation.
 #'
-#' @details This Shiny application demonstrates mainly the \code{compute_sentiment}, \code{corpus_summarize} and
-#' \code{aggregate.sentiment} functions to gain insights in an uploaded corpus. The corpus should be uploaded in
-#' .csv format (by default the \code{\link{usnews}} dataset is displayed). Lexicons and valence shifters can
-#' be chosen from the built-in options or uploaded, and the weighting schemes are those available in the package.
-#' All calculated values and statistics can be downloaded as a .csv file also.
+#' @details This Shiny application demonstrates mainly the \code{\link[sentometrics]{compute_sentiment}}, 
+#' \code{\link[sentometrics]{corpus_summarize}} and \code{\link[sentometrics]{aggregate.sentiment}}
+#' functions from the \pkg{sentometrics} package, allowing to gain insights into an uploaded corpus. The corpus should 
+#' be uploaded in .csv format. Lexicons and valence shifters can be chosen from the built-in options or 
+#' uploaded, and the weighting schemes are those available within \pkg{sentometrics}. All calculated values 
+#' and statistics can be downloaded as a .csv file.
 #'
 #' @export
 sento_app <- function() {
-  suggests <- sapply(c("shiny", "shinyWidgets", "shinythemes", "shinycssloaders", "DT"),
-                     function(pkg) !requireNamespace(pkg, quietly = TRUE))
-  if (any(suggests)) {
+  pkgs <- sapply(c("shiny", "shinyWidgets", "shinythemes", "shinycssloaders", "DT"), function(pkg) !requireNamespace(pkg, quietly = TRUE))
+  if (any(pkgs)) {
     stop("Make sure to have installed following packages before running the app: ",
-         paste0(names(suggests)[suggests], collapse = ", "), ".")
+         paste0(names(pkgs)[pkgs], collapse = ", "), ".")
   }
-  appDir <- system.file("shiny", package = "sentometrics")
+  appDir <- system.file("shiny", package = "sentometrics.app")
   if (appDir == "") {
-    stop("Could not find app directory. Try re-installing the sentometrics package.", call. = FALSE)
+    stop("Could not find app directory. Try re-installing the sentometrics.app package.", call. = FALSE)
   }
   shiny::runApp(appDir, display.mode = "normal")
 }
