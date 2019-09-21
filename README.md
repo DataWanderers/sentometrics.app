@@ -1,6 +1,6 @@
 
 # sentometrics.app
-## An Integrated Framework for Textual Sentiment Time Series Aggregation and Prediction
+## A Shiny application showcasing the sentometrics R Package
 
 <!--- comment out when submitting to CRAN until CRAN/pandoc issues (e.g. handshake) solved --->
 <!--- [![CRAN](http://www.r-pkg.org/badges/version/sentometrics.app)](https://cran.r-project.org/package=sentometrics.app) --->
@@ -10,12 +10,11 @@
 <!--- [![Github Issues](http://githubbadges.herokuapp.com/sborms/sentometrics.app/issues.svg)](https://github.com/sborms/sentometrics.app/issues) --->
 
 The **`sentometrics.app`** package offers a Shiny interface for fast document-level sentiment computation
-and aggregation, and downloading of the obtained values. It serves as a visualisation of part of what the
-package does.
+and aggregation. The obtained values can be downloaded for own use. The functionalities provided are partly those from the **`sentometrics`** package.
 
 ### Installation
 
-To install the package, do either of:
+To install the package, do one of:
 
 ```R
 install.packages("sentometrics.app") # from CRAN (not yet, but soon!)

@@ -7,9 +7,8 @@ Authors@R: c(person("Samuel", "Borms", email = "samuel.borms@unine.ch", role = c
 Author: Samuel Borms [aut, cre]
   Jeroen Van Pelt [aut]
 Maintainer: Samuel Borms <samuel.borms@unine.ch>
-Description: Shiny application using the functionalities from the sentometrics R package.
-Depends: R (>= 3.3.0), 
-  sentometrics
+Description: A Shiny application showcasing the sentometrics R package.
+Depends: R (>= 3.3.0)
 License: GPL (>= 2)
 BugReports: https://github.com/sborms/sentometrics.app/issues
 URL: https://github.com/sborms/sentometrics.app
@@ -23,8 +22,7 @@ Imports: DT,
   shinycssloaders, 
   shinythemes, 
   shinyWidgets,
-  stats,
+  sentometrics,
   utils
-LinkingTo: Rcpp, RcppArmadillo, RcppParallel
 RoxygenNote: 6.1.1
 SystemRequirements: GNU make
