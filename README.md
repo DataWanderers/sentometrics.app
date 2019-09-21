@@ -8,7 +8,7 @@
 <!--- [![Pending Pull-Requests](http://githubbadges.herokuapp.com/sborms/sentometrics.app/pulls.svg?style=flat)](https://github.com/sborms/sentometrics.app/pulls) --->
 <!--- [![Github Issues](http://githubbadges.herokuapp.com/sborms/sentometrics.app/issues.svg)](https://github.com/sborms/sentometrics.app/issues) --->
 
-The **`sentometrics.app`** package offers a Shiny interface for fast document-level textual sentiment computation and aggregation into textual sentiment time series. The obtained values can be downloaded for further use. The functionalities provided are partly those from the **`sentometrics`** package.
+The **`sentometrics.app`** package offers a Shiny interface for fast document-level textual sentiment computation and aggregation into textual sentiment time series. The obtained values can be downloaded for further use. The functionalities provided are partly those from the [**`sentometrics`**](https://github.com/sborms/sentometrics) package.
 
 ### Installation
 
