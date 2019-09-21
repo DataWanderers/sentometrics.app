@@ -1,0 +1,20 @@
+
+year <- "2019"
+link <- "https://doi.org/10.2139/ssrn.3067734"
+
+citHeader("To cite the R package 'sentometrics' in publications use:")
+
+citEntry(entry = "manual",
+         title = "The R Package sentometrics to Compute, Aggregate and Predict with Textual Sentiment",
+         author = personList(person("David","Ardia"),
+                             person("Keven","Bluteau"),
+                             person("Samuel","Borms"),
+                             person("Kris","Boudt")),
+         url = link,
+         year = year,
+         textVersion =
+           paste("David Ardia, Keven Bluteau, Samuel Borms and Kris Boudt (", year,"). ",
+                 "The R Package sentometrics to Compute, Aggregate and Predict with Textual Sentiment. ",
+                 paste("Available at: ", link), ".", sep = "")
+)
+

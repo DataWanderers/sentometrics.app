@@ -1,0 +1,30 @@
+Package: sentometrics.app
+Type: Package
+Title: A Shiny application showcasing the sentometrics R package 
+Version: 0.5
+Authors@R: c(person("Samuel", "Borms", email = "samuel.borms@unine.ch", role = c("aut", "cre")),
+  person("Jeroen", "Van Pelt", email = "jeroenvanpelt@hotmail.com", role = c("aut")))
+Author: Samuel Borms [aut, cre]
+  Jeroen Van Pelt [aut]
+Maintainer: Samuel Borms <samuel.borms@unine.ch>
+Description: Shiny application using the functionalities from the sentometrics R package.
+Depends: R (>= 3.3.0), 
+  sentometrics
+License: GPL (>= 2)
+BugReports: https://github.com/sborms/sentometrics.app/issues
+URL: https://github.com/sborms/sentometrics.app
+Encoding: UTF-8
+LazyData: true
+Suggests: covr, 
+  testthat
+Imports: DT,
+  ggplot2,
+  shiny, 
+  shinycssloaders, 
+  shinythemes, 
+  shinyWidgets,
+  stats,
+  utils
+LinkingTo: Rcpp, RcppArmadillo, RcppParallel
+RoxygenNote: 6.1.1
+SystemRequirements: GNU make
