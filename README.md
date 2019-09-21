@@ -1,6 +1,5 @@
 
-# sentometrics.app
-### A Shiny Visual Interface to the sentometrics R Package
+## _sentometrics.app_: A Shiny Visual Interface to the _sentometrics_ R Package
 
 <!--- comment out when submitting to CRAN until CRAN/pandoc issues (e.g. handshake) solved --->
 <!--- [![CRAN](http://www.r-pkg.org/badges/version/sentometrics.app)](https://cran.r-project.org/package=sentometrics.app) --->
@@ -9,8 +8,7 @@
 <!--- [![Pending Pull-Requests](http://githubbadges.herokuapp.com/sborms/sentometrics.app/pulls.svg?style=flat)](https://github.com/sborms/sentometrics.app/pulls) --->
 <!--- [![Github Issues](http://githubbadges.herokuapp.com/sborms/sentometrics.app/issues.svg)](https://github.com/sborms/sentometrics.app/issues) --->
 
-The **`sentometrics.app`** package offers a Shiny interface for fast document-level sentiment computation
-and aggregation. The obtained values can be downloaded for own use. The functionalities provided are partly those from the **`sentometrics`** package.
+The **`sentometrics.app`** package offers a Shiny interface for fast document-level textual sentiment computation and aggregation into textual sentiment time series. The obtained values can be downloaded for further use. The functionalities provided are partly those from the **`sentometrics`** package.
 
 ### Installation
 
