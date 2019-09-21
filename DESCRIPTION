@@ -1,6 +1,6 @@
 Package: sentometrics.app
 Type: Package
-Title: A Shiny application showcasing the sentometrics R package 
+Title: A Shiny Visual Interface to the sentometrics R Package 
 Version: 0.5
 Authors@R: c(person("Samuel", "Borms", email = "samuel.borms@unine.ch", role = c("aut", "cre")),
   person("Jeroen", "Van Pelt", email = "jeroenvanpelt@hotmail.com", role = c("aut")))
