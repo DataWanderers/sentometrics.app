@@ -3,9 +3,11 @@ Type: Package
 Title: A Shiny Visual Interface to the sentometrics R Package 
 Version: 0.5
 Authors@R: c(person("Samuel", "Borms", email = "samuel.borms@unine.ch", role = c("aut", "cre")),
-  person("Jeroen", "Van Pelt", email = "jeroenvanpelt@hotmail.com", role = c("aut")))
-Author: Samuel Borms [aut, cre]
-  Jeroen Van Pelt [aut]
+  person("Jeroen", "Van Pelt", email = "jeroenvanpelt@hotmail.com", role = c("aut"),
+  person("Andres", "Algaba", email = "andres.algaba@vub.be", role = c("ctb"))
+Author: Samuel Borms [aut, cre],
+  Jeroen Van Pelt [aut],
+  Andres Algaba [ctb]
 Maintainer: Samuel Borms <samuel.borms@unine.ch>
 Description: A Shiny application showcasing the sentometrics R package.
 Depends: R (>= 3.3.0)
@@ -22,7 +24,7 @@ Imports: DT,
   shinycssloaders, 
   shinythemes, 
   shinyWidgets,
-  sentometrics,
+  sentometrics (>= 0.7.0),
   utils
 RoxygenNote: 6.1.1
 SystemRequirements: GNU make
