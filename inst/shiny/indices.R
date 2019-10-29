@@ -13,7 +13,7 @@ indices_server <- function(input, output, session, sento_measures) {
 
   vals <- reactiveValues(
     sento_measures = NULL,
-    selectedGrouping = NULL
+    selectedGrouping = "all"
   )
 
   observe({
@@ -21,21 +21,16 @@ indices_server <- function(input, output, session, sento_measures) {
   })
 
   output$selectIndex <- renderUI({
-
-    if (is.null(sento_measures())) {
-      tags$p("Calculate sentiment first...")
-    } else {
-      selectizeInput(
+    selectizeInput(
         inputId = ns("select_index"),
         label = "Select a grouping to display",
         choices = c("all", "features", "lexicons", "time"),
         selected = "all",
         multiple = FALSE
-      )
-    }
+    )
   })
 
-  observe({
+  observeEvent(input$select_index, {
     vals$selectedGrouping <- input$select_index
   })
 

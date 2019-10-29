@@ -2,13 +2,18 @@
 load_corpus_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    tags$h4(
-      style = "align-text: center",
-      "Corpus"
-    ),
+    uiOutput(ns("corpusUI"))
+  )
+}
+
+load_corpus_server <- function(input, output, session) {
+  ns <- session$ns
+  
+  output$corpusUI <- renderUI({
     tags$table(
       id = "inputs-table",
-      style = "width: 100%",
+      style = "width: 50%",
+      tags$h4("Corpus"),
       tags$tr(
         tags$td(
           style = "width: 90%",
@@ -16,11 +21,12 @@ load_corpus_ui <- function(id) {
             inputId = ns("corpusUpload"),
             label = "Upload .csv file",
             multiple = FALSE,
-            accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
+            accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv"),
+            placeholder = "corpus.csv"
           )
         ),
         tags$td(
-          style = "width: 10%; ",
+          style = "width: 5%",
           div(class = "form-group shiny-input-container",
               actionButton(
                 inputId = ns("corpusHelpButton"),
@@ -31,16 +37,21 @@ load_corpus_ui <- function(id) {
         )
       )
     )
+  })
+  
+  dt <- as.data.table(read.csv(system.file("extdata", "corpus.csv", package = "sentometrics.app"),
+                               header = TRUE,
+                               sep = ";",
+                               quote = '"',
+                               fileEncoding = "UTF-8",
+                               stringsAsFactors = FALSE)
   )
-}
-
-load_corpus_server <- function(input, output, session) {
-
-  corpusFile <- reactiveVal(as.data.table(usnews))
+  dt[, id := as.character(id)]
+  corpusFile <- reactiveVal(dt)
 
   observeEvent(input$corpusUpload, ignoreNULL = TRUE, ignoreInit = TRUE, {
 
-    df <- as.data.table(
+    dt <- as.data.table(
       read.csv(input$corpusUpload$datapath,
                header = TRUE,
                sep = ";",
@@ -49,15 +60,15 @@ load_corpus_server <- function(input, output, session) {
                stringsAsFactors = FALSE)
     )
 
-    w <- match(c("id", "date", "texts"), names(df), nomatch = 0)
-    setcolorder(df, colnames(df)[w])
+    w <- match(c("id", "date", "texts"), names(dt), nomatch = 0)
+    setcolorder(dt, colnames(dt)[w])
 
-    if ("texts" %in% colnames(df)) {
-      corpusFile(df)
+    if ("texts" %in% colnames(dt)) {
+      corpusFile(dt)
     } else {
       showModal(modalDialog(
         title = "Error",
-       "No column 'texts' found. Please upload a valid file."
+        "No column 'texts' found. Please upload a valid file."
       ))
     }
   })
@@ -78,20 +89,21 @@ load_corpus_server <- function(input, output, session) {
 render_corpus_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    div(DT::dataTableOutput(ns("corpus_table")), style = "font-size:80%")
+    div(DT::dataTableOutput(ns("corpusTable")), style = "font-size:80%")
   )
 }
 
 render_corpus_server <- function(input, output, session, corpusFile) {
-
+  ns <- session$ns
+  
   colNumTexts <- reactive({
     grep("texts", colnames(corpusFile()))
   })
 
-  output$corpus_table <- DT::renderDataTable({
+  output$corpusTable <- DT::renderDataTable({
 
     corp <- corpusFile()
-    cols <- colnames(corp[, sapply(corp,is.numeric), with = FALSE])
+    cols <- colnames(corp[, sapply(corp, is.numeric), with = FALSE])
 
     DT::datatable(corp, options = list(
       pageLength = 10,
@@ -104,23 +116,23 @@ render_corpus_server <- function(input, output, session, corpusFile) {
           "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
           "}")
       ))),
-      callback = JS("table.page(3).draw(false); "
+      callback = JS("table.page(3).draw(false);"
       )
     ) %>% formatRound(columns = cols, digits = 2)
-  }, server = FALSE)
-
+  }, server = TRUE)
+  
 }
 
 create_corpus_server <- function(input, output, session, corpusFile) {
   corpusData <- reactive({
-    df <- corpusFile()
-    if (all(c("texts", "id", "date") %in% colnames(df))) {
-      df$id <- as.character(df$id)
-      df$date <- as.character(df$date)
-      df$texts <- as.character(df$texts)
-      corp <- sentometrics::sento_corpus(df)
+    dt <- corpusFile()
+    if (all(c("texts", "id", "date") %in% colnames(dt))) {
+      dt$id <- as.character(dt$id)
+      dt$date <- as.character(dt$date)
+      dt$texts <- as.character(dt$texts)
+      corp <- sentometrics::sento_corpus(dt)
     } else {
-      corp <- as.character(df$texts)
+      corp <- as.character(dt$texts)
     }
   })
 }

@@ -8,7 +8,7 @@ howWithin_ui <- function(id) {
       tags$td(
         tags$h4(
           style = "align-text: center",
-          "Within-document aggregation"
+          "Aggregation"
         )
       )
     ),

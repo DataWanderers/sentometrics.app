@@ -26,12 +26,12 @@ sentiment_server <- function(input, output, session, params, corpus, sentoLexico
 
   output$sentimentUI <- renderUI({
 
-    output$sentimentTable <- renderDataTable({
+    output$sentimentTable <- DT::renderDataTable({
       tokeep <- which(sapply(vals$sentiment, is.numeric))
       cols <- colnames(vals$sentiment[, tokeep, with = FALSE])
       DT::datatable(vals$sentiment, options = list(searching = FALSE)) %>%
         formatRound(columns = cols, digits = 2)
-    }, server = FALSE)
+    }, server = TRUE)
 
     output$selectSentiment <- renderUI({
       selectizeInput(
@@ -58,8 +58,8 @@ sentiment_server <- function(input, output, session, params, corpus, sentoLexico
       ctr <- sentometrics::ctr_agg(howWithin = params$howWithin,
                                    howDocs = params$howDocs,
                                    howTime = params$howTime,
-                                   by = "month",
-                                   lag = 4)
+                                   by = params$by,
+                                   lag = params$lag)
       sento_measures <- sentometrics::sento_measures(corpus(), sentoLexicon(), ctr)
       vals$sento_measures <- sento_measures
       vals$sentiment <- sento_measures$sentiment

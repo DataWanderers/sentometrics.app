@@ -4,6 +4,7 @@ library("shinyWidgets")
 library("shinythemes")
 library("shinycssloaders")
 library("DT")
+library("tableHTML")
 
 library("sentometrics")
 library("quanteda")
@@ -16,7 +17,6 @@ source("howDocs.R")
 source("howTime.R")
 source("corpusSummary.R")
 source("sentiment.R")
-source("sento_lexicon.R")
 source("indices.R")
 
 data("list_lexicons", package = "sentometrics")
@@ -30,14 +30,14 @@ ui <- fluidPage(
         tags$link(rel = "stylesheet", type = "text/css", href = "css.css")
     ),
     sidebarPanel(
-        style = "margin: 15px",
-        load_corpus_ui("load_corpus_server"),
+        tags$style(tableHTML::make_css(list('.well', 'border-width', '10px'))),
+        style = "margin: 14px",
+        header_ui("header_ui"),
         lexicon_ui("lexicon_ui"),
         valence_ui("valence_ui"),
         howWithin_ui("howWithin_ui"),
         howDocs_ui("howDocs_ui"),
-        howTime_ui("howTime_ui"),
-        uiOutput("calculateSentimentButton")
+        howTime_ui("howTime_ui")
     ),
     mainPanel(
         fluidRow(
@@ -47,7 +47,8 @@ ui <- fluidPage(
                 tabPanel(
                     style = "margin: 15px",
                     title = "Corpus",
-                    render_corpus_ui("corpus_table")
+                    load_corpus_ui("load_corpus_ui"),
+                    render_corpus_ui("corpusTable")
                 ),
                 tabPanel(
                     style = "margin: 15px",
@@ -58,13 +59,13 @@ ui <- fluidPage(
                     style = "margin: 15px",
                     title = "Sentiment",
                     sentiment_ui("sentiment_ui"),
-                    value ="sentimentTab"
+                    value = "sentimentTab"
                 ),
                 tabPanel(
                     style = "margin: 15px",
                     title = "Indices",
                     indices_ui("indices_ui"),
-                    value= "indicesTab"
+                    value = "indicesTab"
                 )
             )
         )
@@ -82,7 +83,9 @@ myvals <- reactiveValues(
     howTime = NULL,
     valenceMethod = "Bigram",
     sento_measures = NULL,
-    sentiment = NULL
+    sentiment = NULL,
+    by = NULL,
+    lag = 1
 )
 
 server <- function(input, output, session) {
@@ -103,11 +106,11 @@ server <- function(input, output, session) {
         }
     })
 
-    corpusFile <- callModule(load_corpus_server, "load_corpus_server")
+    corpusFile <- callModule(load_corpus_server, "load_corpus_ui")
     corpus <- callModule(create_corpus_server, "", corpusFile)
-    callModule(render_corpus_server, "corpus_table", corpusFile)
+    callModule(render_corpus_server, "corpusTable", corpusFile)
 
-    lexModule <- callModule(lexicon_server , "lexicon_ui")
+    lexModule <- callModule(lexicon_server, "lexicon_ui")
     observe({
         myvals$selectedLexicons <- lexModule$selected
         myvals$lexiconList <- lexModule$lexiconList
@@ -134,26 +137,20 @@ server <- function(input, output, session) {
     howTimeModule <- callModule(howTime_server, "howTime_ui")
     observe({
         myvals$howTime <- howTimeModule$selected
+        myvals$by <- howTimeModule$by
+        myvals$lag <- howTimeModule$lag
     })
 
     corpusSummaryModule <- callModule(corpus_summary_server, "corpus_summary_ui", corpus)
 
     sentoLexicon <- callModule(build_sento_lexicon, "", myvals)
 
-    output$calculateSentimentButton <- renderUI({
-            actionButton(
-                 inputId = "calcSentimentButton",
-                 label = "Calculate!",
-                 icon = icon("rocket")
-            )
-    })
-
     observeEvent(input$calcSentimentButton, ignoreInit = FALSE, {
 
             if (is.null(sentoLexicon())) {
                 showModal(modalDialog(
                     title = "Error",
-                    "Select a corpus and/or lexicon first..."
+                    "Select a corpus and/or lexicon(s) first..."
                 ))
             } else {
                 showTab(inputId = "tabs", target = "sentimentTab")

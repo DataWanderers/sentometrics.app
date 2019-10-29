@@ -1,10 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
-^docs$
-^examples$
-^THANKS$
-^sentometrics-manual-.*\.pdf$
 ^\.travis\.yml$
 ^cran-comments\.md$
 ^CRAN-RELEASE$

@@ -3,8 +3,8 @@ Type: Package
 Title: A Shiny Visual Interface to the sentometrics R Package 
 Version: 0.5
 Authors@R: c(person("Samuel", "Borms", email = "samuel.borms@unine.ch", role = c("aut", "cre")),
-  person("Jeroen", "Van Pelt", email = "jeroenvanpelt@hotmail.com", role = c("aut"),
-  person("Andres", "Algaba", email = "andres.algaba@vub.be", role = c("ctb"))
+  person("Jeroen", "Van Pelt", email = "jeroenvanpelt@hotmail.com", role = c("aut")),
+  person("Andres", "Algaba", email = "andres.algaba@vub.be", role = c("ctb")))
 Author: Samuel Borms [aut, cre],
   Jeroen Van Pelt [aut],
   Andres Algaba [ctb]

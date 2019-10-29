@@ -16,12 +16,12 @@ corpus_summary_server <- function(input, output, session, corpus) {
     sentometrics::corpus_summarize(corpus(), by = myvals$frequency)
   })
 
-  output$summaryStatsTable <- renderDataTable({
+  output$summaryStatsTable <- DT::renderDataTable({
     tokeep <- which(sapply(corpusSummary()$stats, is.numeric))
     cols <- colnames(corpusSummary()$stats[, tokeep, with = FALSE])
     DT::datatable(corpusSummary()$stats, options = list(searching = FALSE)) %>%
       formatRound(columns = cols, digits = 0)
-  }, server = FALSE)
+  }, server = TRUE)
 
   output$downloadCorpusSummary <- downloadHandler(
     filename = function() paste("corpus_summary_stats_", Sys.Date(), ".csv", sep = ""),

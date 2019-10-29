@@ -46,7 +46,7 @@ valence_server <- function(input, output, session) {
       if (newValenceFileName %in% existingValenceNames){
         showModal(modalDialog(
           title = "Warning",
-          paste("A set of valence shifters with the name: '", newValenceFileName , "' already exists.")
+          paste("A set of valence shifters with the name: '", newValenceFileName, "' already exists.")
         ))
       } else {
         x <- list(data.table::data.table(df))
@@ -56,7 +56,8 @@ valence_server <- function(input, output, session) {
         selected <- newValenceFileName
         showModal(modalDialog(
           title = "Success",
-          paste("Valence shifters with the name: '" , newValenceFileName, "' added to the list of valence shifters.")
+          paste("Valence shifters with the name: '" , newValenceFileName,
+                "' added to the list of valence shifters.")
         ))
       }
     } else {
@@ -77,26 +78,18 @@ valence_server <- function(input, output, session) {
         style = "width: 100%",
         tags$tr(
           tags$td(
-            tags$h4(
-              style = "align-text: center",
-              "Valence shifters"
-            )
-          )
-        ),
-        tags$tr(
-          tags$td(
             style = "width: 90%",
             radioGroupButtons(
               inputId = ns("valenceMethod"),
-              label = "Method",
+              label = "Valence shifting",
               choices = c("Unigram", "Bigram", "Cluster"),
               justified = TRUE
             )
           ),
           tags$td(
-            style = "width: 10%; ",
+            style = "width: 10%",
             div(class = "form-group shiny-input-container",
-                style = "margin-top: 25px;",
+                style = "margin-top: 25px",
                 actionButton(
                   inputId = ns("valenceMethodHelpButton"),
                   label = NULL,
@@ -117,7 +110,7 @@ valence_server <- function(input, output, session) {
             )
           ),
           tags$td(
-            style = "width: 10%; ",
+            style = "width: 10%",
             uiOutput(ns("loadValenceUI"))
           )
         )
@@ -129,10 +122,10 @@ valence_server <- function(input, output, session) {
       tags$h4("Upload valence shifters"),
       tags$table(
         id = "inputs-table",
-        style = "width: 100%",
+        style = "width: 80%",
         tags$tr(
           tags$td(
-            style = "width: 90%",
+            style = "width: 80%",
             fileInput(
               inputId = ns("valenceUpload"),
               label = "Choose .csv file",
@@ -141,7 +134,7 @@ valence_server <- function(input, output, session) {
             )
           ),
           tags$td(
-            style = "width: 10%; ",
+            style = "width: 10%",
             div(class = "form-group shiny-input-container",
                 actionButton(
                   inputId = ns("valenceHelpButton"),
@@ -188,8 +181,6 @@ valence_server <- function(input, output, session) {
                               choices = myvals$methodChoices,
                               selected = myvals$method)
     } else {
-      # myvals$methodChoices <- c("Unigram")
-      # myvals$method <- c("Unigram")
       myvals$selected <- NULL
       myvals$useValence <- FALSE
     }
@@ -200,7 +191,7 @@ valence_server <- function(input, output, session) {
     showModal(modalDialog(
       title = "Valence shifting method",
       "If both the columns 'y' and 't' are delivered, you need to choose between the bigram
-      or the cluster approach. For the bigram approach column 'y' is used. For the cluster
+      or the cluster approach. For the bigram approach, column 'y' is used. For the cluster,
       approach column 't' is used."
     ))
   })
