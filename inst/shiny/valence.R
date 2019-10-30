@@ -154,10 +154,11 @@ valence_server <- function(input, output, session) {
   observeEvent(input$valenceHelpButton, {
     showModal(modalDialog(
       title = "Upload valence shiters",
-      "The .csv file should contain two headers named 'x' and 'y', or 'x' and 't'. Only one set of valence shifters
-      can be uploaded at the same time. Once you have uploaded the file, the set of valence shifters will be
-      available in the predefined list. The name of the set of valence shifters will be the filename of the uploaded
-      set of valence shifters. Use ';' for the separation of columns in the file."
+      "The .csv file should contain two headers named 'x' and 'y', or 'x' and 't'. Only one set of 
+      valence shifters can be uploaded at the same time. Once you have uploaded the file, the set of 
+      valence shifters will be available in the predefined list. The name of the set of valence 
+      shifters will be the filename of the uploaded set of valence shifters. Use ';' for the separation
+      of columns in the file."
     ))
   })
 
