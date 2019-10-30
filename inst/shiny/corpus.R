@@ -39,19 +39,19 @@ load_corpus_server <- function(input, output, session) {
     )
   })
   
-  dt <- as.data.table(read.csv(system.file("extdata", "corpus.csv", package = "sentometrics.app"),
-                               header = TRUE,
-                               sep = ";",
-                               quote = '"',
-                               fileEncoding = "UTF-8",
-                               stringsAsFactors = FALSE)
+  dt <- data.table::as.data.table(read.csv(system.file("extdata", "corpus.csv", package = "sentometrics.app"),
+                                           header = TRUE,
+                                           sep = ";",
+                                           quote = '"',
+                                           fileEncoding = "UTF-8",
+                                           stringsAsFactors = FALSE)
   )
   dt[, id := as.character(id)]
   corpusFile <- reactiveVal(dt)
 
   observeEvent(input$corpusUpload, ignoreNULL = TRUE, ignoreInit = TRUE, {
 
-    dt <- as.data.table(
+    dt <- data.table::as.data.table(
       read.csv(input$corpusUpload$datapath,
                header = TRUE,
                sep = ";",

@@ -28,7 +28,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Samuel Borms \email{samuel.borms@unine.ch}
+\strong{Maintainer}: Samuel Borms \email{samuel.borms@unine.ch} (0000-0001-9533-1870)
 
 Authors:
 \itemize{

@@ -16,12 +16,15 @@ LazyData: true
 Suggests: covr, 
   testthat
 Imports: DT,
+  data.table,
   ggplot2,
+  quanteda,
   shiny, 
   shinycssloaders, 
   shinythemes, 
   shinyWidgets,
   sentometrics (>= 0.7.0),
+  tableHTML,
   utils
 RoxygenNote: 6.1.1
 SystemRequirements: GNU make

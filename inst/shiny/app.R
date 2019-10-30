@@ -166,7 +166,7 @@ server <- function(input, output, session) {
                 })
                 observe({
                     if (!is.null(sentimentModule$sentiment)) {
-                        myvals$sentiment <- as.data.table(sentimentModule$sentiment)
+                        myvals$sentiment <- data.table::as.data.table(sentimentModule$sentiment)
                     } else {
                         myvals$sentiment <- NULL
                     }
