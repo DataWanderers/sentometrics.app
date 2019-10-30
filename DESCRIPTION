@@ -2,12 +2,9 @@ Package: sentometrics.app
 Type: Package
 Title: A Shiny Visual Interface to the sentometrics R Package 
 Version: 0.5
-Authors@R: c(person("Samuel", "Borms", email = "samuel.borms@unine.ch", role = c("aut", "cre")),
+Authors@R: c(person("Samuel", "Borms", email = "samuel.borms@unine.ch", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9533-1870")),
   person("Jeroen", "Van Pelt", email = "jeroenvanpelt@hotmail.com", role = c("aut")),
   person("Andres", "Algaba", email = "andres.algaba@vub.be", role = c("ctb")))
-Author: Samuel Borms [aut, cre],
-  Jeroen Van Pelt [aut],
-  Andres Algaba [ctb]
 Maintainer: Samuel Borms <samuel.borms@unine.ch>
 Description: A Shiny application showcasing the sentometrics R package.
 Depends: R (>= 3.3.0)
