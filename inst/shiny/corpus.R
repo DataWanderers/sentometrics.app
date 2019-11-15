@@ -76,10 +76,10 @@ load_corpus_server <- function(input, output, session) {
   observeEvent(input$corpusHelpButton, {
     showModal(modalDialog(
       title = "Upload a corpus",
-      "The .csv file should at a very minimun contain a header named 'texts'. However, it is recommended
-      to also have an 'id' and a properly formatted 'date' column so a sento_corpus can be created. The
-      file can also contain additional columns for (numeric) features. Use ';' for the separation of
-      columns in the file."
+      "The .csv file should at a very minimum contain a header named 'texts'. However, it is recommended
+      to also have an 'id' and a properly formatted 'date' ('yyyy-mm-dd') column so a sento_corpus 
+      can be created. The file can also contain additional columns for (numeric) features. Use ';' 
+      for the separation of columns in the file."
     ))
   })
 

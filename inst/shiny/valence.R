@@ -103,7 +103,7 @@ valence_server <- function(input, output, session) {
             style = "width: 90%",
             selectizeInput(
               inputId = ns("selectValence"),
-              label = "Select valence shifters from list or upload",
+              label = "Select valence shifters or upload",
               choices = c("none", myvals$choices),
               selected = NULL,
               multiple = FALSE

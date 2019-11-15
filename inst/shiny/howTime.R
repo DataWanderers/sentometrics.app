@@ -43,7 +43,7 @@ howTime_server <- function(input, output, session) {
       inputId = ns("selectLag"),
       label = "Lag?",
       min = 1,
-      value = 14
+      value = 12
     ))
     output
   })

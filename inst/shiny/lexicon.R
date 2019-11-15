@@ -97,7 +97,7 @@ lexicon_server <- function(input, output, session) {
   output$selectLexiconsUI <- renderUI({
     selectizeInput(
       inputId = session$ns("selectLexicons"),
-      label = "Select lexicons from list or upload",
+      label = "Select lexicons or upload",
       choices = as.list(myvals$choices),
       selected = "GI_en",
       multiple = TRUE
