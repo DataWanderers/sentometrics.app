@@ -4,7 +4,8 @@
 #' @author Samuel Borms, Jeroen Van Pelt
 #'
 #' @description A Shiny application built on the \pkg{sentometrics} package to allow straightforward
-#' textual sentiment computation, aggregation and visualisation.
+#' textual sentiment computation, aggregation and visualisation. The default loaded .csv file is a
+#' subset of the \code{\link[sentometrics]{usnews}} corpus.
 #'
 #' @details This Shiny application demonstrates mainly the \code{\link[sentometrics]{compute_sentiment}}, 
 #' \code{\link[sentometrics]{corpus_summarize}} and \code{\link[sentometrics]{aggregate.sentiment}}
