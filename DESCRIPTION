@@ -23,7 +23,7 @@ Imports: DT,
   shinycssloaders, 
   shinythemes, 
   shinyWidgets,
-  sentometrics (>= 0.7.0),
+  sentometrics (>= 0.7.6),
   tableHTML,
   utils
 RoxygenNote: 6.1.1

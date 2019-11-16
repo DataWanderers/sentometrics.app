@@ -16,7 +16,8 @@
 #'
 #' @export
 sento_app <- function() {
-  pkgs <- sapply(c("shiny", "shinyWidgets", "shinythemes", "shinycssloaders", "DT"), function(pkg) !requireNamespace(pkg, quietly = TRUE))
+  pkgs <- sapply(c("shiny", "shinyWidgets", "shinythemes", "shinycssloaders", "DT"), function(pkg) 
+    !requireNamespace(pkg, quietly = TRUE))
   if (any(pkgs)) {
     stop("Make sure to have installed following packages before running the app: ",
          paste0(names(pkgs)[pkgs], collapse = ", "), ".")
