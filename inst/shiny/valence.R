@@ -14,8 +14,8 @@ valence_server <- function(input, output, session) {
     choices = names(list_valence_shifters),
     selected = NULL,
     useValence = FALSE,
-    method = "Bigram",
-    methodChoices = c("Bigram", "Cluster")
+    method = "Bigrams",
+    choicesMethod = c("Unigrams", "Bigrams", "Clusters")
   )
 
   valenceFileName <- reactive({
@@ -82,7 +82,7 @@ valence_server <- function(input, output, session) {
             radioGroupButtons(
               inputId = ns("valenceMethod"),
               label = "Valence shifting",
-              choices = c("Unigram", "Bigram", "Cluster"),
+              choices = c("Unigrams", "Bigrams", "Clusters"),
               justified = TRUE
             )
           ),
@@ -167,33 +167,38 @@ valence_server <- function(input, output, session) {
     if (input$selectValence != "none") {
       myvals$selected <- input$selectValence
       myvals$useValence <- TRUE
+      
+      myvals$choicesMethod <- c("Bigrams", "Clusters")
       colnames <- names(myvals$valenceList[[input$selectValence]])
       if (all(c("y", "t") %in% colnames)) {
-        myvals$methodChoices <- c("Bigram", "Cluster")
-        myvals$method <- "Bigram"
-      } else if ("y" %in% colnames) {
-        myvals$methodChoices <- c("Bigram")
-        myvals$method <- "Bigram"
+        myvals$method <- input$valenceMethod
       } else {
-        myvals$methodChoices <- c("Cluster")
-        myvals$method <- "Cluster"
+        if ("y" %in% colnames) {
+          myvals$choicesMethod <- myvals$method <- "Bigrams"
+        } else if ("t" %in% colnames) {
+          myvals$choicesMethod <- myvals$method <- "Clusters"
+        }
       }
-      updateRadioGroupButtons(session, "valenceMethod",
-                              choices = myvals$methodChoices,
-                              selected = myvals$method)
-    } else {
+    } else if (input$selectValence == "none") {
       myvals$selected <- NULL
       myvals$useValence <- FALSE
+      
+      myvals$choicesMethod <- "Unigrams"
+      myvals$method <- "Unigrams"
     }
 
+    updateRadioGroupButtons(session, "valenceMethod", 
+                            choices = myvals$choicesMethod, selected = myvals$method)
+    
   })
 
   observeEvent(input$valenceMethodHelpButton, {
     showModal(modalDialog(
       title = "Valence shifting method",
-      "If both the columns 'y' and 't' are delivered, you need to choose between the bigram
-      or the cluster approach. For the bigram approach, column 'y' is used. For the cluster,
-      approach column 't' is used."
+      "If both the columns 'y' and 't' are delivered, you need to choose between the bigrams
+      or the clusters approach. For the bigrams approach, column 'y' is used. For the clusters
+      approach column 't' is used. The unigrams approach applies when no valence shifters
+      are provided."
     ))
   })
 

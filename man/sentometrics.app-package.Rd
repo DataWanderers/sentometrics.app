@@ -28,7 +28,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Samuel Borms \email{samuel.borms@unine.ch} (0000-0001-9533-1870)
+\strong{Maintainer}: Samuel Borms \email{samuel.borms@unine.ch} (\href{https://orcid.org/0000-0001-9533-1870}{ORCID})
 
 Authors:
 \itemize{

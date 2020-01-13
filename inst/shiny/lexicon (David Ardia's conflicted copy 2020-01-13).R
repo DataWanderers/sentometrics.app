@@ -89,7 +89,8 @@ lexicon_server <- function(input, output, session) {
     }
     
     updateSelectizeInput(session = getDefaultReactiveDomain(),
-                         inputId = "selectLexicons", selected = selected)
+                         inputId = "selectLexicons", selected = selected
+    )
 
   })
 
@@ -169,11 +170,10 @@ build_sento_lexicon <- function(input, output, session, params) {
       return(NULL)
     }
     if (useValence && !is.null(selectedValence)) {
-      valenceShiftersIn <- data.table::as.data.table(valenceList[[selectedValence]])
-      # print(valenceMethod)
-      if (valenceMethod == "Bigrams") {
+      valenceShiftersIn <- as.data.table(valenceList[[selectedValence]])
+      if (valenceMethod == "Bigram") {
         valenceShiftersIn <- valenceShiftersIn[, .(x, y)]
-      } else if (valenceMethod == "Clusters") {
+      } else {
         valenceShiftersIn <- valenceShiftersIn[, .(x, t)]
       }
     } else {
@@ -188,4 +188,3 @@ build_sento_lexicon <- function(input, output, session, params) {
   })
   
 }
-

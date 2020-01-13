@@ -8,6 +8,7 @@ library("tableHTML")
 
 library("sentometrics")
 library("quanteda")
+library("data.table")
 
 source("corpus.R")
 source("lexicon.R")
@@ -81,7 +82,7 @@ myvals <- reactiveValues(
     howWithin = NULL,
     howDocs = NULL,
     howTime = NULL,
-    valenceMethod = "Bigram",
+    valenceMethod = "Bigrams",
     sento_measures = NULL,
     sentiment = NULL,
     by = NULL,
@@ -123,7 +124,7 @@ server <- function(input, output, session) {
         myvals$valenceMethod <- valenceModule$method
         myvals$valenceList <- valenceModule$valenceList
     })
-
+    
     howWithinModule <- callModule(howWithin_server, "howWithin_ui")
     observe({
         myvals$howWithin <- howWithinModule$selected

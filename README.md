@@ -1,5 +1,5 @@
 
-## _sentometrics.app_: A Shiny Visual Interface to the _sentometrics_ R Package
+## _sentometrics.app_: A Shiny Interface to the _sentometrics_ R Package
 
 <!--- comment out when submitting to CRAN until CRAN/pandoc issues (e.g. handshake) solved --->
 <!--- [![CRAN](http://www.r-pkg.org/badges/version/sentometrics.app)](https://cran.r-project.org/package=sentometrics.app) --->
