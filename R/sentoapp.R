@@ -9,8 +9,8 @@
 #'
 #' @details This Shiny application demonstrates mainly the \code{\link[sentometrics]{compute_sentiment}}, 
 #' \code{\link[sentometrics]{corpus_summarize}} and \code{\link[sentometrics]{aggregate.sentiment}}
-#' functions from the \pkg{sentometrics} package, allowing to gain insights into an uploaded corpus. The corpus should 
-#' be uploaded in .csv format. Lexicons and valence shifters can be chosen from the built-in options or 
+#' functions from the \pkg{sentometrics} package, allowing to gain insights into an uploaded corpus. The corpus 
+#' should be uploaded in .csv format. Lexicons and valence shifters can be chosen from the built-in options or 
 #' uploaded, and the weighting schemes are those available within \pkg{sentometrics}. All calculated values 
 #' and statistics can be downloaded as a .csv file.
 #'

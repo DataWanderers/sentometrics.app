@@ -15,7 +15,7 @@ To install the package, do one of:
 
 ```R
 # install.packages("sentometrics.app") # from CRAN (not yet, but soon!)
-devtools::install_github("SentometricsResearch/sentometrics.app") # development version (may contain bugs...)
+devtools::install_github("SentometricsResearch/sentometrics.app") # development version (may be buggy...)
 ```
 
 ### References
