@@ -1,16 +1,15 @@
 Package: sentometrics.app
 Type: Package
-Title: A Shiny Interface to the sentometrics R Package 
+Title: A Shiny Interface to the R Package sentometrics
 Version: 0.5
 Authors@R: c(person("Samuel", "Borms", email = "samuel.borms@unine.ch", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-9533-1870")),
-  person("Jeroen", "Van Pelt", email = "jeroenvanpelt@hotmail.com", role = c("aut")),
-  person("Andres", "Algaba", email = "andres.algaba@vub.be", role = c("ctb")))
+  person("Jeroen", "Van Pelt", email = "jeroenvanpelt@hotmail.com", role = c("aut")))
 Maintainer: Samuel Borms <samuel.borms@unine.ch>
 Description: A Shiny application to use the sentometrics R package.
 Depends: R (>= 3.3.0)
 License: GPL (>= 2)
-BugReports: https://github.com/sborms/sentometrics.app/issues
-URL: https://github.com/sborms/sentometrics.app
+BugReports: https://github.com/SentometricsResearch/sentometrics.app/issues
+URL: https://github.com/SentometricsResearch/sentometrics.app
 Encoding: UTF-8
 LazyData: true
 Suggests: covr, 
