@@ -15,19 +15,19 @@ To install the package, do one of:
 
 ```R
 # install.packages("sentometrics.app") # from CRAN (not yet, but might one day)
-devtools::install_github("SentometricsResearch/sentometrics.app") # development version (may be buggy...)
+devtools::install_github("DataWanderers/sentometrics.app") # development version (may be buggy...)
 ```
 
 ### Usage
 
-To load the application, you just need two lines of code:
+To start the application, you just need two lines of code:
 
 ```R
 library("sentometrics.app")
 sentometrics.app::sento_app()
 ```
 
-This is what you can end up with:
+This is how it looks (but a bit less pixelated hopefully :-)):
 
 <p align="center"> <img src="man/figures/app-preview.png" alt="app"/> </p>
 
