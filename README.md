@@ -14,7 +14,7 @@ The **`sentometrics.app`** package offers a Shiny interface for fast document-le
 To install the package, do one of:
 
 ```R
-# install.packages("sentometrics.app") # from CRAN (not yet, maybe one day)
+# install.packages("sentometrics.app") # from CRAN (not yet, but might one day)
 devtools::install_github("SentometricsResearch/sentometrics.app") # development version (may be buggy...)
 ```
 
