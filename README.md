@@ -29,7 +29,7 @@ sentometrics.app::sento_app()
 
 This is what you can end up with:
 
-<p align="center"> <img src="man/figures/app-preview.png" alt="app"/> </p>
+<p align="center"> <img src="man/figures/app-preview.png" alt="app" width="700" height="450"/> </p>
 
 Enjoy exploring the filters and outputs!
 
