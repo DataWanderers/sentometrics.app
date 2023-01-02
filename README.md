@@ -27,7 +27,7 @@ library("sentometrics.app")
 sentometrics.app::sento_app()
 ```
 
-This is how it looks (but a bit less pixelated hopefully :-)):
+This is how it looks (but a bit less pixelated hopefully :smiley:):
 
 <p align="center"> <img src="man/figures/app-preview.png" alt="app"/> </p>
 
