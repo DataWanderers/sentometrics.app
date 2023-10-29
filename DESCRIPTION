@@ -8,8 +8,8 @@ Maintainer: Samuel Borms <samuel.borms@unine.ch>
 Description: A Shiny application to use the sentometrics R package.
 Depends: R (>= 3.3.0)
 License: GPL (>= 2)
-BugReports: https://github.com/SentometricsResearch/sentometrics.app/issues
-URL: https://github.com/SentometricsResearch/sentometrics.app
+BugReports: https://github.com/DataWanderers/sentometrics.app/issues
+URL: https://github.com/DataWanderers/sentometrics.app
 Encoding: UTF-8
 LazyData: true
 Suggests: covr, 

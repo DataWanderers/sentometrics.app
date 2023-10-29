@@ -4,14 +4,6 @@ howDocs_ui <- function(id) {
   tags$table(
     id = "inputs-table",
     style = "width: 100%",
-    # tags$tr(
-    #   tags$td(
-    #     tags$h4(
-    #       style = "align-text: center",
-    #       "Across-document aggregation"
-    #     )
-    #   )
-    # ),
     tags$tr(
       tags$td(
         uiOutput(ns("selectHowUI"))
@@ -31,7 +23,7 @@ howDocs_server <- function(input, output, session) {
   output$selectHowUI <- renderUI({
     selectInput(
       inputId = ns("selectHow"),
-      label = "Select across-document aggregation",
+      label = "Across-document",
       choices = myvals$choices,
       selected = myvals$selected,
       multiple = FALSE

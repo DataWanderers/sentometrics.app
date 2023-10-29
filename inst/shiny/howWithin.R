@@ -6,14 +6,6 @@ howWithin_ui <- function(id) {
     style = "width: 100%",
     tags$tr(
       tags$td(
-        tags$h4(
-          style = "align-text: center",
-          "Aggregation"
-        )
-      )
-    ),
-    tags$tr(
-      tags$td(
         uiOutput(ns("selectHowUI"))
       )
     )
@@ -31,7 +23,7 @@ howWithin_server <- function(input, output, session) {
   output$selectHowUI <- renderUI({
     selectInput(
       inputId = ns("selectHow"),
-      label = "Select within-document aggregation",
+      label = "Within-document",
       choices = myvals$choices,
       selected = myvals$selected,
       multiple = FALSE

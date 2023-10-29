@@ -1,7 +1,10 @@
 
 corpus_summary_ui <- function(id) {
   ns <- NS(id)
-  uiOutput(ns("corpusSummary"))
+  tagList(
+    tags$h4("Get an overview of the corpus"),
+    uiOutput(ns("corpusSummary"))
+  )
 }
 
 corpus_summary_server <- function(input, output, session, corpus) {
@@ -31,38 +34,40 @@ corpus_summary_server <- function(input, output, session, corpus) {
     contentType = "text/csv"
   )
 
-  output$featurePlot <- renderPlot({
-    corpusSummary()$plots$feature_plot
+  output$docPlot <- renderPlot({
+    corpusSummary()$plots$doc_plot + ggplot2::theme(text = ggplot2::element_text(size=16))
   })
 
   output$tokenPlot <- renderPlot({
-    corpusSummary()$plots$token_plot
+    corpusSummary()$plots$token_plot + ggplot2::theme(text = ggplot2::element_text(size=16))
   })
 
-  output$docPlot <- renderPlot({
-    corpusSummary()$plots$doc_plot
+  output$featurePlot <- renderPlot({
+    corpusSummary()$plots$feature_plot + ggplot2::theme(text = ggplot2::element_text(size=16))
   })
-
+  
   observeEvent(input$selectSummaryFrequency, {
     myvals$frequency <- input$selectSummaryFrequency
   })
 
   output$corpusSummary <- renderUI({
-
-  if ("sento_corpus" %in% class(corpus())) {
+    validate(
+      need("sento_corpus" %in% class(corpus()),
+           "Your corpus is missing the columns 'id' and 'date' meaning no time series can be computed.")
+    )
 
     fluidRow(
+      style = "margin: 0px",
       tags$div(
         style = "margin-bottom: 15px",
         selectizeInput(
           inputId = ns("selectSummaryFrequency"),
-          label = "Select frequency",
+          label = "Frequency",
           choices = c("day", "week", "month", "year"),
           selected = "day",
           multiple = FALSE
         )
       ),
-      style = "margin: 15px",
       tabsetPanel(
         tabPanel(
           style = "margin: 15px",
@@ -88,11 +93,6 @@ corpus_summary_server <- function(input, output, session, corpus) {
         )
       )
     )
-
-  } else {
-    tags$p("A sento_corpus object with the columns 'id', 'date' and 'texts' is needed for the summary.")
-  }
-
   })
 }
 

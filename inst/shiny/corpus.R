@@ -2,6 +2,7 @@
 load_corpus_ui <- function(id) {
   ns <- NS(id)
   tagList(
+    tags$h4("Upload and validate a collection of texts"),
     uiOutput(ns("corpusUI"))
   )
 }
@@ -13,13 +14,12 @@ load_corpus_server <- function(input, output, session) {
     tags$table(
       id = "inputs-table",
       style = "width: 50%",
-      tags$h4("Corpus"),
       tags$tr(
         tags$td(
           style = "width: 90%",
           fileInput(
             inputId = ns("corpusUpload"),
-            label = "Upload .csv file",
+            label = "Upload your corpus",
             multiple = FALSE,
             accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv"),
             placeholder = "corpus.csv"
@@ -39,14 +39,20 @@ load_corpus_server <- function(input, output, session) {
     )
   })
   
-  dt <- data.table::as.data.table(read.csv(system.file("extdata", "corpus.csv", package = "sentometrics.app"),
-                                           header = TRUE,
-                                           sep = ";",
-                                           quote = '"',
-                                           fileEncoding = "UTF-8",
-                                           stringsAsFactors = FALSE)
+  # corpus available when launching app
+  dt <- data.table::as.data.table(
+    read.csv(
+      # system.file("extdata", "texts.csv", package = "sentometrics.app"),
+      "data/corpus.csv",
+      header = TRUE,
+      sep = ";",
+      quote = '"',
+      fileEncoding = "UTF-8",
+      stringsAsFactors = FALSE
+    )
   )
   dt[, id := as.character(id)]
+  
   corpusFile <- reactiveVal(dt)
 
   observeEvent(input$corpusUpload, ignoreNULL = TRUE, ignoreInit = TRUE, {
@@ -76,10 +82,10 @@ load_corpus_server <- function(input, output, session) {
   observeEvent(input$corpusHelpButton, {
     showModal(modalDialog(
       title = "Upload a corpus",
-      "The .csv file should at a very minimum contain a header named 'texts'. However, it is recommended
-      to also have an 'id' and a properly formatted 'date' ('yyyy-mm-dd') column so a sento_corpus 
-      can be created. The file can also contain additional columns for (numeric) features. Use ';' 
-      for the separation of columns in the file."
+      "The .csv file (with ';' as separator) should at least contain a header
+      named 'texts'. It is recommended to also include an 'id' and a 'date'
+      (as 'yyyy-mm-dd') column so a sento_corpus can be created, and time series
+      indices computed. You can add further columns with numeric features."
     ))
   })
 
@@ -101,12 +107,11 @@ render_corpus_server <- function(input, output, session, corpusFile) {
   })
 
   output$corpusTable <- DT::renderDataTable({
-
     corp <- corpusFile()
     cols <- colnames(corp[, sapply(corp, is.numeric), with = FALSE])
 
     DT::datatable(corp, options = list(
-      pageLength = 10,
+      pageLength = 5,
       lengthMenu = c(5, 10, 15, 20),
       columnDefs = list(list(
         targets = colNumTexts(),
@@ -116,11 +121,9 @@ render_corpus_server <- function(input, output, session, corpusFile) {
           "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
           "}")
       ))),
-      callback = JS("table.page(3).draw(false);"
-      )
+      callback = JS("table.page(3).draw(false);")
     ) %>% formatRound(columns = cols, digits = 2)
   }, server = TRUE)
-  
 }
 
 create_corpus_server <- function(input, output, session, corpusFile) {

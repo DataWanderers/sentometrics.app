@@ -1,33 +1,16 @@
 
-header_ui <- function(id) {
-  ns <- NS(id)
-  tags$table(
-    id = "inputs-table",
-    style = "width: 100%",
-    tags$tr(
-      tags$td(width = "70%", tags$h3(style = "margin: 0px", "Parameters")),
-      tags$td(actionButton(
-        inputId = "calcSentimentButton",
-        label = "Calculate!",
-        icon = icon("rocket"))
-      )
-    )
-  )
-}
-
 lexicon_ui <- function(id) {
   ns <- NS(id)
   tags$table(
     id = "inputs-table",
     style = "width: 100%",
-    tags$tr(tags$h4("Word lists")),
     tags$tr(
       tags$td(
-        style = "width: 85%",
+        style = "width: 90%",
         uiOutput(ns("selectLexiconsUI"))
       ),
       tags$td(
-        style = "width: 10%",
+        style = "padding-left: 10px; width: 10%",
         uiOutput(ns("loadLexiconUI"))
       )
     )
@@ -96,7 +79,7 @@ lexicon_server <- function(input, output, session) {
   output$selectLexiconsUI <- renderUI({
     selectizeInput(
       inputId = session$ns("selectLexicons"),
-      label = "Select lexicons or upload",
+      label = "Select or upload lexicons",
       choices = as.list(myvals$choices),
       selected = "GI_en",
       multiple = TRUE
@@ -139,10 +122,10 @@ lexicon_server <- function(input, output, session) {
 
   observeEvent(input$lexiconHelpButton, {
     showModal(modalDialog(
-      title = "Upload a lexicon",
-      "The .csv file should contain two headers named 'x' and 'y'. Only one lexicon can be uploaded at the same time.
-      Once you have uploaded the file, the lexicon will be available in the predefined list. The name of your
-      lexicon will be the filename of the uploaded lexicon. Use ';' for the separation of columns in the file."
+      title = "Upload lexicon",
+      "The .csv file (with ';' as separator) should contain the headers 'x'
+      and 'y'. Only one lexicon can be uploaded at a time. Once uploaded, the
+      lexicon becomes available in the list using the filename as identifier."
     ))
   })
 
@@ -154,7 +137,6 @@ lexicon_server <- function(input, output, session) {
 }
 
 build_sento_lexicon <- function(input, output, session, params) {
-  
   sentoLexicon <- reactive({
     lexiconList <- params$lexiconList
     selectedLexicons <- params$selectedLexicons
@@ -170,7 +152,6 @@ build_sento_lexicon <- function(input, output, session, params) {
     }
     if (useValence && !is.null(selectedValence)) {
       valenceShiftersIn <- data.table::as.data.table(valenceList[[selectedValence]])
-      # print(valenceMethod)
       if (valenceMethod == "Bigrams") {
         valenceShiftersIn <- valenceShiftersIn[, .(x, y)]
       } else if (valenceMethod == "Clusters") {
@@ -184,8 +165,8 @@ build_sento_lexicon <- function(input, output, session, params) {
     } else {
       lex <- NULL
     }
+
     lex
   })
-  
 }
 

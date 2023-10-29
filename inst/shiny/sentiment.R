@@ -1,7 +1,10 @@
 
 sentiment_ui <- function(id) {
   ns <- NS(id)
-  uiOutput(ns("sentimentUI"))
+  tagList(
+    tags$h4("Inspect document-level sentiment values"),
+    uiOutput(ns("sentimentUI"))
+  )
 }
 
 sentiment_server <- function(input, output, session, params, corpus, sentoLexicon, calculate) {
@@ -25,7 +28,6 @@ sentiment_server <- function(input, output, session, params, corpus, sentoLexico
   })
 
   output$sentimentUI <- renderUI({
-
     output$sentimentTable <- DT::renderDataTable({
       tokeep <- which(sapply(vals$sentiment, is.numeric))
       cols <- colnames(vals$sentiment[, tokeep, with = FALSE])
@@ -48,6 +50,7 @@ sentiment_server <- function(input, output, session, params, corpus, sentoLexico
     })
 
     fluidRow(
+      style = "margin: 0px",
       div(dataTableOutput(ns("sentimentTable")), style = "font-size:80%"),
       uiOutput(ns("downloadButtonConditional"))
     )
@@ -55,20 +58,23 @@ sentiment_server <- function(input, output, session, params, corpus, sentoLexico
 
   observeEvent(calculate, {
     if ("sento_corpus" %in% class(corpus())) {
-      ctr <- sentometrics::ctr_agg(howWithin = params$howWithin,
-                                   howDocs = params$howDocs,
-                                   howTime = params$howTime,
-                                   by = params$by,
-                                   lag = params$lag)
+      ctr <- sentometrics::ctr_agg(
+        howWithin = params$howWithin,
+        howDocs = params$howDocs,
+        howTime = params$howTime,
+        by = params$by,
+        lag = params$lag,
+        alphasExp = c(0.1, 0.4),
+        aBeta = 1:2,
+        bBeta = 1:2
+      )
       sento_measures <- sentometrics::sento_measures(corpus(), sentoLexicon(), ctr)
       vals$sento_measures <- sento_measures
       vals$sentiment <- sento_measures$sentiment
-      sento_measures
     } else {
-      sentiment <- compute_sentiment(corpus(), sentoLexicon(), params$how)
+      sentiment <- compute_sentiment(corpus(), sentoLexicon(), how = params$howWithin)
       vals$sento_measures <- NULL
       vals$sentiment <- sentiment
-      return(NULL)
     }
   })
 

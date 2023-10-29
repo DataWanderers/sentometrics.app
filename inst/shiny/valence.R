@@ -1,8 +1,29 @@
 
 valence_ui <- function(id) {
   ns <- NS(id)
-  tagList(
-    uiOutput(ns("valenceUI"))
+  tags$table(
+    id = "inputs-table",
+    style = "width: 100%",
+    tags$tr(
+      tags$td(
+        style = "width: 90%",
+        uiOutput(ns("selectValenceUI"))
+      ),
+      tags$td(
+        style = "padding-left: 10px; width: 10%",
+        uiOutput(ns("loadValenceUI"))
+      )
+    ),
+    tags$tr(
+      tags$td(
+        style = "width: 90%",
+        uiOutput(ns("methodValenceUI"))
+      ),
+      tags$td(
+        style = "width: 10%",
+        uiOutput(ns("methodValenceHelpUI"))
+      )
+    )
   )
 }
 
@@ -27,7 +48,6 @@ valence_server <- function(input, output, session) {
   })
 
   observeEvent(input$valenceUpload, {
-
     selected <- input$selectValence
 
     df <- read.csv(input$valenceUpload$datapath,
@@ -37,13 +57,11 @@ valence_server <- function(input, output, session) {
                    fileEncoding = "UTF-8",
                    stringsAsFactors = FALSE)
 
-    if (all(c("x", "y") %in% colnames(df)) && !"t" %in% colnames(df) ||
-        all(c("x", "t") %in% colnames(df)) && !"y" %in% colnames(df)) {
-
+    if ("x" %in% colnames(df) &&
+        (("y" %in% colnames(df)) || ("z" %in% colnames(df)))) {
       existingValenceNames <- myvals$choices
       newValenceFileName <- valenceFileName()
-
-      if (newValenceFileName %in% existingValenceNames){
+      if (newValenceFileName %in% existingValenceNames) {
         showModal(modalDialog(
           title = "Warning",
           paste("A set of valence shifters with the name: '", newValenceFileName, "' already exists.")
@@ -63,58 +81,22 @@ valence_server <- function(input, output, session) {
     } else {
       showModal(modalDialog(
         title = "Error",
-        "Columns 'x' and 'y' or 't' not found. Please upload a valid file."
+        "Columns 'x' and 'y' and/or 't' not found. Please upload a valid file."
       ))
     }
 
     updateSelectizeInput(session = getDefaultReactiveDomain(),
                          inputId = "selectValence", selected = selected)
-
   })
-
-  output$valenceUI <- renderUI({
-      tags$table(
-        id = "inputs-table",
-        style = "width: 100%",
-        tags$tr(
-          tags$td(
-            style = "width: 90%",
-            radioGroupButtons(
-              inputId = ns("valenceMethod"),
-              label = "Valence shifting",
-              choices = c("Unigrams", "Bigrams", "Clusters"),
-              justified = TRUE
-            )
-          ),
-          tags$td(
-            style = "width: 10%",
-            div(class = "form-group shiny-input-container",
-                style = "margin-top: 25px",
-                actionButton(
-                  inputId = ns("valenceMethodHelpButton"),
-                  label = NULL,
-                  icon = icon("question")
-                )
-            )
-          )
-        ),
-        tags$tr(
-          tags$td(
-            style = "width: 90%",
-            selectizeInput(
-              inputId = ns("selectValence"),
-              label = "Select valence shifters or upload",
-              choices = c("none", myvals$choices),
-              selected = NULL,
-              multiple = FALSE
-            )
-          ),
-          tags$td(
-            style = "width: 10%",
-            uiOutput(ns("loadValenceUI"))
-          )
-        )
-      )
+  
+  output$selectValenceUI <- renderUI({
+    selectizeInput(
+      inputId = ns("selectValence"),
+      label = "Select or upload valence shifters",
+      choices = c("none", myvals$choices),
+      selected = "none",
+      multiple = FALSE
+    )
   })
 
   output$loadValenceUI <- renderUI({
@@ -151,54 +133,76 @@ valence_server <- function(input, output, session) {
     )
   })
 
+  output$methodValenceUI <- renderUI({
+    radioGroupButtons(
+      inputId = ns("valenceMethod"),
+      label = "Valence shifting",
+      choices = c("Unigrams"),
+      justified = TRUE
+    )
+  })
+  
+  output$methodValenceHelpUI <- renderUI({
+    div(class = "form-group shiny-input-container",
+        style = "margin-top: 25px",
+        actionButton(
+          inputId = ns("valenceMethodHelpButton"),
+          label = NULL,
+          icon = icon("question")
+        )
+    )
+  })
+  
   observeEvent(input$valenceHelpButton, {
     showModal(modalDialog(
-      title = "Upload valence shiters",
-      "The .csv file should contain two headers named 'x' and 'y', or 'x' and 't'. Only one set of 
-      valence shifters can be uploaded at the same time. Once you have uploaded the file, the set of 
-      valence shifters will be available in the predefined list. The name of the set of valence 
-      shifters will be the filename of the uploaded set of valence shifters. Use ';' for the separation
-      of columns in the file."
+      title = "Upload valence shifters",
+      "The .csv file (with ';' as separator) should contain the headers 'x' and 'y'
+      and/or 't'. Only one set of valence shifters can be uploaded at a time. Once
+      uploaded, the set of valence shifters becomes available in the list using
+      the filename as identifier."
     ))
   })
 
   observeEvent(input$selectValence, {
-
     if (input$selectValence != "none") {
       myvals$selected <- input$selectValence
       myvals$useValence <- TRUE
+      myvals$choicesMethod <- c("Bigrams", "Clusters")  # fallback
       
-      myvals$choicesMethod <- c("Bigrams", "Clusters")
-      colnames <- names(myvals$valenceList[[input$selectValence]])
-      if (all(c("y", "t") %in% colnames)) {
-        myvals$method <- input$valenceMethod
+      cols <- names(myvals$valenceList[[input$selectValence]])
+      if (all(c("y", "t") %in% cols)) {
+        if (input$valenceMethod == "Unigrams") {
+          myvals$method <- "Bigrams"  # default first pick
+        } else {
+          myvals$method <- input$valenceMethod
+        }
       } else {
-        if ("y" %in% colnames) {
+        if ("y" %in% cols) {
           myvals$choicesMethod <- myvals$method <- "Bigrams"
-        } else if ("t" %in% colnames) {
+        } else if ("t" %in% cols) {
           myvals$choicesMethod <- myvals$method <- "Clusters"
         }
       }
     } else if (input$selectValence == "none") {
       myvals$selected <- NULL
       myvals$useValence <- FALSE
-      
-      myvals$choicesMethod <- "Unigrams"
-      myvals$method <- "Unigrams"
+      myvals$choicesMethod <- myvals$method <- "Unigrams"
     }
-
+    
     updateRadioGroupButtons(session, "valenceMethod", 
                             choices = myvals$choicesMethod, selected = myvals$method)
-    
+  }, ignoreInit = TRUE)
+
+  observeEvent(input$valenceMethod, {
+    myvals$method <- input$valenceMethod
   })
 
   observeEvent(input$valenceMethodHelpButton, {
     showModal(modalDialog(
       title = "Valence shifting method",
-      "If both the columns 'y' and 't' are delivered, you need to choose between the bigrams
-      or the clusters approach. For the bigrams approach, column 'y' is used. For the clusters
-      approach column 't' is used. The unigrams approach applies when no valence shifters
-      are provided."
+      "If you give both columns 'y' and 't', you need to choose between the bigrams approach
+      (column 'y') or the clusters approach (column 't'). The unigrams approach applies when
+      no valence shifters are provided."
     ))
   })
 

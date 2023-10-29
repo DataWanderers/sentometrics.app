@@ -9,6 +9,12 @@ howTime_ui <- function(id) {
         style = "margin-bottom: 0px",
         uiOutput(ns("selectHowUI"))
       )
+    ),
+    tags$tr(
+      tags$td(
+        style = "margin-bottom: 0px",
+        uiOutput(ns("selectHowUIExtra"))
+      )
     )
   )
 }
@@ -24,30 +30,35 @@ howTime_server <- function(input, output, session) {
   )
 
   output$selectHowUI <- renderUI({
-    output <- tagList()
-    output[[1]] <- selectInput(
-      inputId = ns("selectHow"),
-      label = "Select across-time aggregation",
-      choices = myvals$choices,
-      selected = "equal_weight",
-      multiple = TRUE
+      selectInput(
+        inputId = ns("selectHow"),
+        label = "Across-time",
+        choices = myvals$choices,
+        selected = "equal_weight",
+        multiple = TRUE
     )
-    output[[2]] <- column(6, style = "padding:0px;", selectInput(
-      inputId = ns("selectFrequency"),
-      label = "By?",
-      choices = c("day", "week", "month", "year"),
-      selected = "month",
-      multiple = FALSE
-    ))
-    output[[3]] <- column(6, numericInput(
-      inputId = ns("selectLag"),
-      label = "Lag?",
-      min = 1,
-      value = 12
-    ))
-    output
   })
-
+  
+  output$selectHowUIExtra <- renderUI({
+    fluidRow(
+      column(width = 6,
+             selectInput(
+               inputId = ns("selectFrequency"),
+               label = "Frequency",
+               choices = c("day", "week", "month", "year"),
+               selected = "month",
+               multiple = FALSE)
+             ),
+      column(width = 6,
+             numericInput(
+               inputId = ns("selectLag"),
+               label = "Window",
+               min = 1,
+               value = 12)
+             )
+      )
+  })
+  
   observeEvent(input$selectHow, {
     myvals$selected <- input$selectHow
   })
@@ -59,7 +70,6 @@ howTime_server <- function(input, output, session) {
   observeEvent(input$selectLag, {
     myvals$lag <- input$selectLag
   })
-  
   
   return(myvals)
 }

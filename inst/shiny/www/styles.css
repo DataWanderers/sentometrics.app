@@ -1,0 +1,30 @@
+#loading-content {
+  position: absolute;
+  padding: 10% 0 0 0;
+  background: #000000;
+  opacity: 0.99;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  height: 100%;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+#inputs-table {
+  border-collapse: collapse;
+}
+                
+#inputs-table td {
+  padding: 0;
+}
+
+#github {
+    float: right;
+    text-decoration: none;
+    color: #000;
+}
+
+.dropdown-menu {
+  width: 200px;
+}

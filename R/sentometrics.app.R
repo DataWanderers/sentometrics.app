@@ -9,7 +9,8 @@
 #'
 #' @note Please cite the package in publications. Use \code{citation("sentometrics.app")}.
 #'
-#' @references Ardia, Bluteau, Borms and Boudt (2019). ``The R package sentometrics to compute, aggregate and
-#' predict with textual sentiment''. \emph{Working paper}, \url{https://doi.org/10.2139/ssrn.3067734}.
+#' @references Ardia, Bluteau, Borms and Boudt (2021). \strong{The R Package sentometrics to Compute, Aggregate, and
+#' Predict with Textual Sentiment}. \emph{Journal of Statistical Software 99(2), 1-40},
+#' \doi{10.18637/jss.v099.i02}.
 "_PACKAGE"
 
